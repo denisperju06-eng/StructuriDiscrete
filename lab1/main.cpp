@@ -122,7 +122,7 @@ int main() {
     Linie(5);
 
     cout << "\n\t11. Problema logica reala (mers la cinema)";
-    cout << "\n    F = (A && B) || (A && C) || (B && C)";
+    cout << "\n    F = (A && B) || (A && C) || (B && C) || (A && B && C)";
     cout << "\n    Unde: A = Ana, B = Bogdan, C = Cristina";
     Linie(4);
     cout << "\n|  A  |  B  |  C  |  F  |";
@@ -130,7 +130,7 @@ int main() {
     for (a = 0; a <= 1; a++)
         for (b = 0; b <= 1; b++)
             for (c = 0; c <= 1; c++) {
-                int F = (a && b) || (a && c) || (b && c);
+                int F = (a && b) || (a && c) || (b && c) || (a && b && c);
                 cout << "\n|  " << a << "  |  " << b << "  |  " << c << "  |  " << F << "  |";
             }
     Linie(4);
