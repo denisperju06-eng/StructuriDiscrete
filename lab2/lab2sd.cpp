@@ -20,8 +20,7 @@ llu Sarcina10_Placute();
 
 int main()
 {
-    system("color 0A");
-    system("cls");
+
 
     unsigned n, m;
     cout << "Oferiti valoarea numarului total: n = ";
