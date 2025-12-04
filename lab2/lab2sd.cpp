@@ -1,62 +1,111 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
+#include <cstring>
+
 using namespace std;
+
+// Definim tipul pentru numere mari (Unsigned Long Long)
 typedef unsigned long long llu;
 
+// --- Declaratii de functii ---
+// Factorial
 llu Factorial(unsigned n);
 llu FactorialRecursiv(unsigned n);
+
+// Permutari
 llu Permutari(unsigned n);
+
+// Aranjamente
 llu Aranjamente(unsigned n, unsigned m);
+llu AranjamenteOptim(unsigned n, unsigned m);
+
+// Combinari
 llu Combinari(unsigned n, unsigned m);
 llu CombinariOptim(unsigned n, unsigned m);
-llu Power(unsigned n, unsigned k);
+
+// Putere (pentru repetitii)
+llu Power(unsigned n, unsigned k); // Iterativ
+llu PowerRecursiv(unsigned n, unsigned k); // Recursiv
+
+// Cu Repetitie
 llu RPermutari(unsigned n);
-llu RAranjamente(unsigned n, unsigned m);
+llu RAranjamente(unsigned n, unsigned m); // Iterativ, bazat pe Power
+llu RAranjamenteRecursiv(unsigned n, unsigned m); // Recursiv, bazat pe PowerRecursiv
 llu RCombinari(unsigned n, unsigned m);
+
+// Permutari cu obiecte identice
 llu RCPermutari(char s[]);
+
+// Binomul lui Newton
 void BinomulNewton(unsigned p);
+
+// Sarcina specifica
 llu Sarcina10_Placute();
 
+// --- Functia Principala ---
 int main()
 {
-
-
     unsigned n, m;
     cout << "Oferiti valoarea numarului total: n = ";
-    cin >> n;
-    cout << "Oferiti valoarea lui m = ";
-    cin >> m;
+    if (!(cin >> n)) { cerr << "Eroare la citirea lui n." << endl; return 1; }
 
-    cout << "Proiect nr. 2, elaborat de Perju Denis" << endl;
+    cout << "Oferiti valoarea lui m = ";
+    if (!(cin >> m)) { cerr << "Eroare la citirea lui m." << endl; return 1; }
+
+    cout << "\nProiect nr. 2, elaborat de Perju Denis" << endl;
     cout << "Tema: Elemente din combinatorica" << endl;
 
+    // ------------------------------------------------------------------
+    // 1. Factorial
+    // ------------------------------------------------------------------
     cout << "\n1.1. Factorial iterativ\n";
     for (unsigned i = 0; i <= 20; ++i)
     {
         cout << setw(2) << left << i << "! = " << setw(20) << Factorial(i) << "| ";
-        if (i % 4 == 0) cout << endl;
+        if ((i + 1) % 4 == 0) cout << endl;
     }
 
     cout << "\n1.2. Factorial recursiv\n";
     for (unsigned i = 0; i <= 20; ++i)
     {
         cout << setw(2) << left << i << "! = " << setw(20) << FactorialRecursiv(i) << "| ";
-        if (i % 4 == 0) cout << endl;
+        if ((i + 1) % 4 == 0) cout << endl;
     }
+    cout << endl;
 
+    // ------------------------------------------------------------------
+    // 2-5. Fara Repetitie
+    // ------------------------------------------------------------------
     cout << "\n2. Permutari> P(" << n << ") = " << Permutari(n) << endl;
-    cout << "3. Aranjamente> A(" << n << ", " << m << ") = " << Aranjamente(n, m) << endl;
-    cout << "4. Combinari> C(" << n << ", " << m << ") = " << Combinari(n, m) << endl;
-    cout << "5. Combinari Optim> C(" << n << ", " << m << ") = " << CombinariOptim(n, m) << endl;
-    cout << "6.1. Permutari cu repetitii (n^n)> PR(" << n << ") = " << RPermutari(n) << endl;
-    cout << "6.2. Aranjamente cu repetitii (n^m)> AR(" << n << ", " << m << ") = " << RAranjamente(n, m) << endl;
-    cout << "7. Combinari cu repetitii> CR(" << n << ", " << m << ") = " << RCombinari(n, m) << endl;
+
+    cout << "3.1. Aranjamente (n!/(n-m)!)> A(" << n << ", " << m << ") = " << Aranjamente(n, m) << endl;
+    cout << "3.2. Aranjamente Optim (Iterativ)> A(" << n << ", " << m << ") = " << AranjamenteOptim(n, m) << endl;
+
+    cout << "4.1. Combinari (n!/m!(n-m)! )> C(" << n << ", " << m << ") = " << Combinari(n, m) << endl;
+    cout << "4.2. Combinari Optim (Iterativ)> C(" << n << ", " << m << ") = " << CombinariOptim(n, m) << endl;
+
+    // ------------------------------------------------------------------
+    // 6. Cu Repetitie
+    // ------------------------------------------------------------------
+    cout << "\n5. Permutari cu repetitii (n^n)> PR(" << n << ") = " << RPermutari(n) << endl;
+
+    cout << "6.1. Putere (n^m) Iterativ> AR(" << n << ", " << m << ") = " << Power(n, m) << endl;
+    cout << "6.2. Putere (n^m) Recursiv> AR(" << n << ", " << m << ") = " << PowerRecursiv(n, m) << endl;
+
+    cout << "6.3. Aranjamente cu repetitii (Iterativ)> AR(" << n << ", " << m << ") = " << RAranjamente(n, m) << endl;
+    cout << "6.4. Aranjamente cu repetitii (Recursiv)> AR(" << n << ", " << m << ") = " << RAranjamenteRecursiv(n, m) << endl;
+
+    cout << "7. Combinari cu repetitii (Optim)> CR(" << n << ", " << m << ") = " << RCombinari(n, m) << endl;
+
+    // ------------------------------------------------------------------
+    // Alte Sarcini
+    // ------------------------------------------------------------------
 
     // --- Binomul lui Newton ---
     unsigned p;
     cout << "\nIntroduceti p pentru Binomul lui Newton (coeficienti si forma (a+b)^p): p = ";
-    cin >> p;
+    if (!(cin >> p)) { cerr << "Eroare la citirea lui p." << endl; return 1; }
     BinomulNewton(p);
 
     // --- Permutari de cuvinte ---
@@ -73,7 +122,11 @@ int main()
     return 0;
 }
 
+// ===================================================
+// --- Implementarea Functiilor ---
+// ===================================================
 
+// Factorial Iterativ
 llu Factorial(unsigned n)
 {
     llu f = 1;
@@ -81,34 +134,51 @@ llu Factorial(unsigned n)
     return f;
 }
 
+// Factorial Recursiv
 llu FactorialRecursiv(unsigned n)
 {
     if (n <= 1) return 1;
     return FactorialRecursiv(n - 1) * n;
 }
 
+// Permutari P(n) = n!
 llu Permutari(unsigned n)
 {
     return Factorial(n);
 }
 
+// Aranjamente A(n, m) = n! / (n-m)! (Versiunea ne-optimizata)
 llu Aranjamente(unsigned n, unsigned m)
 {
     if (m > n) return 0;
     return Factorial(n) / Factorial(n - m);
 }
 
+// Aranjamente A(n, m) (Versiunea Optim/Iterativa)
+llu AranjamenteOptim(unsigned n, unsigned m)
+{
+    if (m > n) return 0;
+    llu result = 1;
+    for (unsigned i = 0; i < m; ++i) {
+        result *= (n - i);
+    }
+    return result;
+}
+
+// Combinari C(n, m) = n! / (m! * (n-m)!) (Versiunea ne-optimizata)
 llu Combinari(unsigned n, unsigned m)
 {
     if (m > n) return 0;
     return Factorial(n) / (Factorial(m) * Factorial(n - m));
 }
 
+// Combinari C(n, m) (Versiunea Optim/Iterativa)
 llu CombinariOptim(unsigned n, unsigned m)
 {
     if (m > n) return 0;
     unsigned k = m;
     if (k > n - k) k = n - k;
+
     llu num = 1;
     for (unsigned i = 1; i <= k; ++i)
     {
@@ -117,6 +187,7 @@ llu CombinariOptim(unsigned n, unsigned m)
     return num;
 }
 
+// Putere n^k (Iterativ)
 llu Power(unsigned n, unsigned k)
 {
     llu p = 1;
@@ -124,36 +195,58 @@ llu Power(unsigned n, unsigned k)
     return p;
 }
 
+// Putere n^k (Recursiv)
+llu PowerRecursiv(unsigned n, unsigned k)
+{
+    if (k == 0) return 1;
+    return PowerRecursiv(n, k - 1) * n;
+}
+
+// Permutari cu repetitii PR(n) = n^n
 llu RPermutari(unsigned n)
 {
     return Power(n, n);
 }
 
+// Aranjamente cu repetitii AR(n, m) = n^m (Iterativ)
 llu RAranjamente(unsigned n, unsigned m)
 {
     return Power(n, m);
 }
 
+// Aranjamente cu repetitii AR(n, m) = n^m (Recursiv)
+llu RAranjamenteRecursiv(unsigned n, unsigned m)
+{
+    return PowerRecursiv(n, m);
+}
+
+// Combinari cu repetitii CR(n, m) = C(n + m - 1, m)
 llu RCombinari(unsigned n, unsigned m)
 {
     return CombinariOptim(n + m - 1, m);
 }
 
+// Permutari de cuvinte (obiecte identice)
 llu RCPermutari(char s[])
 {
     unsigned freq[256] = {0};
     unsigned len = 0;
-    while (s[len] != '\0' && len < 19) ++len;
-    for (unsigned i = 0; i < len; ++i) freq[(unsigned char)s[i]]++;
+    while (s[len] != '\0' && len < 20) {
+        freq[(unsigned char)s[len]]++;
+        len++;
+    }
 
+    llu total = Factorial(len);
     llu denom = 1;
     for (unsigned c = 0; c < 256; ++c)
-        if (freq[c] > 1) denom *= Factorial(freq[c]);
+        if (freq[c] > 1)
+            denom *= Factorial(freq[c]);
 
-    llu total = Factorial(len) / denom;
-    return total;
+    if (denom == 0) return 0;
+    return total / denom;
 }
 
+// Binomul lui Newton
 void BinomulNewton(unsigned p)
 {
     cout << "\nBinomul lui Newton pentru p = " << p << "\n";
@@ -167,20 +260,33 @@ void BinomulNewton(unsigned p)
         llu c = CombinariOptim(p, k);
         if (k > 0) cout << " + ";
         if (c != 1) cout << c << "*";
-        cout << "a^" << (p - k) << "*b^" << k;
+
+        // a^(p-k)
+        if (p - k > 0) {
+            cout << "a";
+            if (p - k > 1) cout << "^" << (p - k);
+        }
+
+        // b^k
+        if (k > 0) {
+            if (p - k > 0) cout << "*";
+            cout << "b";
+            if (k > 1) cout << "^" << k;
+        }
+
+        if (p == 0 && k == 0) cout << "1";
     }
     cout << "\n";
 }
 
-/* --- Sarcina 10: Placute auto --- */
+// Sarcina 10: Placute auto
 llu Sarcina10_Placute()
 {
-    // Sarcina 10. Problema: Număr de plăcuțe auto
-    // Se consideră sistemul de înmatriculare în care o plăcuță este formată din:
-    //  - 3 litere (A–Z), fără repetarea literelor
-    //  - 3 cifre (0–9), cu repetarea cifrelor permisă
-
+    // 3 litere distincte din 26: A(26, 3) = 26 * 25 * 24
     llu litere = 26ULL * 25ULL * 24ULL;
-    llu cifre = 1000ULL; // 10^3
+
+    // 3 cifre din 10, cu repetitie: AR(10, 3) = 10^3 = 1000
+    llu cifre = Power(10, 3);
+
     return litere * cifre;
 }
