@@ -42,6 +42,7 @@ void BinomulNewton(unsigned p);
 
 // Sarcina specifica
 llu Sarcina10_Placute();
+void Afisare_Placute(int cate);
 
 // --- Functia Principala ---
 int main()
@@ -114,10 +115,18 @@ int main()
     cin >> s;
     cout << "Numarul de permutari distincte ale cuvantului '" << s << "' = " << RCPermutari(s) << endl;
 
-    // --- Sarcina 10: Placute auto ---
-    cout << "\n--- Sarcina 10: Problema placute auto ---\n";
-    cout << "Conditie: o placuta auto este formata din 3 litere distincte + 3 cifre (repetitie permisa)\n";
-    cout << "Numarul total de placute auto distincte: " << Sarcina10_Placute() << endl;
+    cout << "\n--- Sarcina 10: Placute auto ---\n";
+
+    llu total = Sarcina10_Placute();
+    cout << "Numarul total de placute auto: " << total << "\n\n";
+
+    int a;
+    cout << "Introduceti numarul de placute de afisat: ";
+    cin >> a;
+
+    cout << "\nPrimele " << a << " placute auto:\n";
+    Afisare_Placute(a);
+
 
     return 0;
 }
@@ -279,14 +288,33 @@ void BinomulNewton(unsigned p)
     cout << "\n";
 }
 
-// Sarcina 10: Placute auto
+// Sarcina 10: Placute auto - total
 llu Sarcina10_Placute()
 {
-    // 3 litere distincte din 26: A(26, 3) = 26 * 25 * 24
+    // 3 litere distincte din 26: A(26,3) = 26*25*24
     llu litere = 26ULL * 25ULL * 24ULL;
 
-    // 3 cifre din 10, cu repetitie: AR(10, 3) = 10^3 = 1000
-    llu cifre = Power(10, 3);
+    // 3 cifre 0-9 cu repetitie: 10^3
+    llu cifre = 10ULL * 10ULL * 10ULL;
 
-    return litere * cifre;
+    return litere * cifre; // total placute
+}
+
+// Sarcina 10: Placute auto - afisare primele 'cate'
+void Afisare_Placute(int cate)
+{
+    int afisate = 0;
+
+    for (char a = 'A'; a <= 'Z' && afisate < cate; a++)
+        for (char b = 'A'; b <= 'Z' && afisate < cate; b++)
+            for (char c = 'A'; c <= 'Z' && afisate < cate; c++)
+                if (a != b && a != c && b != c) // litere distincte
+                    for (char d1 = '0'; d1 <= '9' && afisate < cate; d1++)
+                        for (char d2 = '0'; d2 <= '9' && afisate < cate; d2++)
+                            for (char d3 = '0'; d3 <= '9' && afisate < cate; d3++)
+                            {
+                                cout << a << b << c << "-" << d1 << d2 << d3 << "\n";
+                                afisate++;
+                                if (afisate >= cate) break;
+                            }
 }
