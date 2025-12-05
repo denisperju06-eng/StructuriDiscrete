@@ -7,6 +7,7 @@ using namespace std;
 
 // Definim tipul pentru numere mari (Unsigned Long Long)
 typedef unsigned long long llu;
+int count=0;
 
 // --- Declaratii de functii ---
 // Factorial
@@ -42,7 +43,7 @@ void BinomulNewton(unsigned p);
 
 // Sarcina specifica
 llu Sarcina10_Placute();
-void Afisare_Placute(int cate);
+int Afisare_Placute(int cate);
 
 // --- Functia Principala ---
 int main()
@@ -125,7 +126,7 @@ int main()
     cin >> a;
 
     cout << "\nPrimele " << a << " placute auto:\n";
-    Afisare_Placute(a);
+    cout<<"In total\n"<<Afisare_Placute(a)<<"placute";
 
 
     return 0;
@@ -301,7 +302,7 @@ llu Sarcina10_Placute()
 }
 
 // Sarcina 10: Placute auto - afisare primele 'cate'
-void Afisare_Placute(int cate)
+int Afisare_Placute(int cate)
 {
     int afisate = 0;
 
@@ -313,8 +314,12 @@ void Afisare_Placute(int cate)
                         for (char d2 = '0'; d2 <= '9' && afisate < cate; d2++)
                             for (char d3 = '0'; d3 <= '9' && afisate < cate; d3++)
                             {
-                                cout << a << b << c << "-" << d1 << d2 << d3 << "\n";
+                                cout << a << b << c << "-" << d1 << d2 << d3 << " ";
                                 afisate++;
+                                if (afisate%10 ==0 ) {
+                                    cout<<endl;
+                                }
                                 if (afisate >= cate) break;
                             }
+    return afisate;
 }
